@@ -1,0 +1,11 @@
+import {it,expect} from 'vitest';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {ScientificText} from '../src/ScientificText';
+import {spokenNotation} from '../src/textNotation';
+import {StoryScene} from '../src/StoryExperience';
+import {newCampaign,dispatchCampaign} from '../src/campaign';
+it('检测计数法转真实上标，金额和日期不改变',()=>{const html=renderToStaticMarkup(<ScientificText text="1.23e+5 拷贝/mg组织，第12天，¥2,120"/>);expect(html).toContain('1.23 × 10<sup>5</sup>');expect(html).toContain('第12天，¥2,120');});
+it('负指数、化学下标及面积正确展示',()=>{const html=renderToStaticMarkup(<ScientificText text="2.5e-3，CO₂，m²，10⁶"/>);expect(html).toContain('<sup>-3</sup>');expect(html).toContain('CO<sub>2</sub>');expect(html).toContain('m<sup>2</sup>');expect(html).toContain('10<sup>6</sup>');});
+it('文本中的尖括号不能变成HTML',()=>{expect(renderToStaticMarkup(<ScientificText text="<img src=x> 1e3"/>)).toContain('&lt;img src=x&gt;');});
+it('检测语音读指数及单位，不念e加号',()=>{expect(spokenNotation('1.23e+5 拷贝/mg组织，2e-3 拷贝/mL浸提液')).toBe('1.23 乘以 10的5次方 拷贝/毫克组织，2 乘以 10的负3次方 拷贝/毫升浸提液');});
+it('场景区不含人物、对话、遮罩或按钮',()=>{const g=dispatchCampaign(newCampaign(),{type:'register',name:'小满',gender:'female'},'r');const html=renderToStaticMarkup(<StoryScene g={g} disabled={false} onAction={async()=>true} onRestart={()=>{}} onExport={()=>{}} onHome={()=>{}} onSave={()=>{}}/>);const stage=html.match(/<section class="story-stage[^]*?<\/section>/)?.[0];expect(stage).toContain('scene-background');expect(stage).not.toContain('npc-');expect(stage).not.toContain('vignette');expect(stage).not.toContain('<button');expect(html).toContain('dialogue-avatar');});

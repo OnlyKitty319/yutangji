@@ -1,0 +1,21 @@
+import {afterEach,beforeEach,describe,it,expect,vi} from 'vitest';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {continueWhenVisible,readingDelay} from '../src/storyFlow';
+import {StoryScene} from '../src/StoryExperience';
+import {newCampaign,dispatchCampaign} from '../src/campaign';
+import fs from 'node:fs';
+const noop=()=>{};
+const register=()=>dispatchCampaign(newCampaign(),{type:'register',name:'小满',gender:'female'},'register');
+const render=(g:ReturnType<typeof register>)=>renderToStaticMarkup(<StoryScene g={g} disabled={false} onAction={async()=>true} onRestart={noop} onExport={noop} onHome={noop} onSave={noop}/>);
+let visibility:EventTarget;
+beforeEach(()=>{vi.useFakeTimers();visibility=new EventTarget();vi.stubGlobal('document',{hidden:false,addEventListener:visibility.addEventListener.bind(visibility),removeEventListener:visibility.removeEventListener.bind(visibility)});});
+afterEach(()=>{vi.useRealTimers();vi.unstubAllGlobals();});
+describe('连续剧情与有效选择',()=>{
+ it('静音阅读后自动续对白只调用一次，不立即跳过文字',()=>{const next=vi.fn();continueWhenVisible(next,readingDelay('我先看看塘口。'));vi.advanceTimersByTime(2599);expect(next).not.toHaveBeenCalled();vi.advanceTimersByTime(1);expect(next).toHaveBeenCalledTimes(1);vi.advanceTimersByTime(60000);expect(next).toHaveBeenCalledTimes(1);});
+ it('切到后台暂停推进，回来后留足阅读时间',()=>{const next=vi.fn();continueWhenVisible(next,3000);vi.advanceTimersByTime(2000);Object.defineProperty(document,'hidden',{value:true,configurable:true});visibility.dispatchEvent(new Event('visibilitychange'));vi.advanceTimersByTime(30000);expect(next).not.toHaveBeenCalled();Object.defineProperty(document,'hidden',{value:false,configurable:true});visibility.dispatchEvent(new Event('visibilitychange'));vi.advanceTimersByTime(2999);expect(next).not.toHaveBeenCalled();vi.advanceTimersByTime(1);expect(next).toHaveBeenCalledTimes(1);});
+ it('换场或重播取消旧续播，旧计时不能跳过新的对话',()=>{const next=vi.fn();const cancel=continueWhenVisible(next,300);cancel();vi.advanceTimersByTime(10000);visibility.dispatchEvent(new Event('visibilitychange'));vi.advanceTimersByTime(10000);expect(next).not.toHaveBeenCalled();});
+ it('读档直接显示当前真实任务，没有旧回复或空转按钮',()=>{let g=register();g=dispatchCampaign(g,{type:'talk',conversation:'arrival',answer:'steady'},'talk');g=dispatchCampaign(g,{type:'prep',step:'P00',option:'survey'},'prep');const before=JSON.stringify(g),html=render(g);expect(html).toContain('按计划完成这项作业');expect(html).not.toContain('嗯，接着说');expect(html).not.toContain('接着上次的安排');expect(html).not.toContain('为什么要等');expect((html.match(/class="dialogue-choice"/g)||[]).length).toBe(1);expect(JSON.stringify(g)).toBe(before);});
+ it('已完成的工作直接显示真实验收选项，说明入口已删除',()=>{let g=register();g=dispatchCampaign(g,{type:'talk',conversation:'arrival',answer:'steady'},'talk');g=dispatchCampaign(g,{type:'prep',step:'P00',option:'survey'},'prep');g=dispatchCampaign(g,{type:'advance',days:7},'advance');const html=render(g);expect(html).toContain('核对记录');expect(html).not.toContain('再提醒我一次');expect((html.match(/class="dialogue-choice"/g)||[]).length).toBe(1);});
+ it('结算读档直接进入结局，仍有重新开始与导出入口',()=>{let g=register();g=dispatchCampaign(g,{type:'stop'},'stop');const html=render(g);expect(html).toContain('收入');expect(html).toContain('我想再开一造');expect(html).toContain('把这一造的记录带走');expect(html).not.toContain('接着上次的安排');});
+ it('主线不再链接独立采购练习，保留真正购料和存档',()=>{const app=fs.readFileSync(new URL('../src/CampaignApp.tsx',import.meta.url),'utf8');expect(app).not.toContain('采购练习');const story=fs.readFileSync(new URL('../src/StoryExperience.tsx',import.meta.url),'utf8');expect(story).toContain("type:'buy'");expect(story).toContain('送样与报告');expect(story).toContain('onSave');});
+});
