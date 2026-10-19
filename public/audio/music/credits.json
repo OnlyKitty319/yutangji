@@ -1,0 +1,103 @@
+{
+  "composition": "渔塘记原创程序合成配乐，无外部采样",
+  "tracks": [
+    {
+      "file": "pond.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.10317420432024958
+    },
+    {
+      "file": "pond-b.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.10440276946539344
+    },
+    {
+      "file": "evening.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.0948183011025279
+    },
+    {
+      "file": "evening-b.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.10581137475612643
+    },
+    {
+      "file": "rain.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.09461619021498874
+    },
+    {
+      "file": "rain-b.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.0947595048474644
+    },
+    {
+      "file": "disease.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.09163069681099116
+    },
+    {
+      "file": "disease-b.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.09791670416443626
+    },
+    {
+      "file": "market.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.09640146379780681
+    },
+    {
+      "file": "market-b.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.10094636493345907
+    },
+    {
+      "file": "success.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.10357397555246482
+    },
+    {
+      "file": "success-b.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.10273198668880096
+    },
+    {
+      "file": "loss.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.09677836274736272
+    },
+    {
+      "file": "loss-b.wav",
+      "seconds": 48,
+      "sampleRate": 22050,
+      "peak": 0.5500045777764214,
+      "rms": 0.09593445746423361
+    }
+  ]
+}
