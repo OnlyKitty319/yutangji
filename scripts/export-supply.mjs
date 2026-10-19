@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import ts from 'typescript';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const source=fs.readFileSync(path.join(root,'src/supplyCatalog.ts'),'utf8');
+const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const {PRODUCTS,SOURCES,RESEARCH_DATE}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+const target=path.join(root,'public/research');fs.mkdirSync(target,{recursive:true});
+fs.writeFileSync(path.join(target,'supply-catalog.json'),JSON.stringify({version:1,researchDate:RESEARCH_DATE,scope:'供游戏资料参考；非完整商品目录、价格表或养殖操作建议',sources:SOURCES,products:PRODUCTS},null,2));
+console.log(`Exported ${PRODUCTS.length} reference entries and ${Object.keys(SOURCES).length} sources.`);
