@@ -1,0 +1,9 @@
+node_modules/
+dist/
+release/
+.vite/
+*.log
+.local/
+work/
+*.zip
+test-results*.json
