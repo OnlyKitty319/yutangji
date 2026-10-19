@@ -1,0 +1,82 @@
+{
+  "chen": {
+    "name": "陈伯",
+    "character": "年长、沉稳、低声慢说",
+    "voice": "kangkang",
+    "rate": 0.87,
+    "pitch": 0.78,
+    "sapiRate": -2,
+    "sapiPitch": -4,
+    "renderPitch": 0.86
+  },
+  "lan": {
+    "name": "许岚",
+    "character": "冷静、清晰、专业",
+    "voice": "yaoyao",
+    "rate": 0.98,
+    "pitch": 0.94,
+    "sapiRate": 0,
+    "sapiPitch": -1,
+    "renderPitch": 1.03
+  },
+  "ze": {
+    "name": "阿泽",
+    "character": "年轻、明亮、利落",
+    "voice": "kangkang",
+    "rate": 1.12,
+    "pitch": 1.17,
+    "sapiRate": 1,
+    "sapiPitch": 3,
+    "renderPitch": 0.9
+  },
+  "lin": {
+    "name": "林婶",
+    "character": "温和、舒缓、亲切",
+    "voice": "huihui",
+    "rate": 0.9,
+    "pitch": 0.88,
+    "sapiRate": -1,
+    "sapiPitch": -2,
+    "renderPitch": 1
+  },
+  "zhou": {
+    "name": "周启",
+    "character": "干脆、偏低、语速较快",
+    "voice": "kangkang",
+    "rate": 1.06,
+    "pitch": 0.94,
+    "sapiRate": 1,
+    "sapiPitch": -1,
+    "renderPitch": 0.86
+  },
+  "male": {
+    "name": "男主角",
+    "character": "自然、年轻、平实",
+    "voice": "kangkang",
+    "rate": 1.0,
+    "pitch": 1.06,
+    "sapiRate": 0,
+    "sapiPitch": 1,
+    "renderPitch": 0.88
+  },
+  "female": {
+    "name": "女主角",
+    "character": "轻快、清亮、直接",
+    "voice": "yaoyao",
+    "rate": 1.07,
+    "pitch": 1.15,
+    "sapiRate": 1,
+    "sapiPitch": 3,
+    "renderPitch": 1.04
+  },
+  "narrator": {
+    "name": "旁白",
+    "character": "独立的低缓女声、克制叙述",
+    "voice": "huihui",
+    "rate": 0.84,
+    "pitch": 0.72,
+    "sapiRate": -2,
+    "sapiPitch": -5,
+    "renderPitch": 0.92
+  }
+}
